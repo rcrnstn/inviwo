@@ -419,6 +419,16 @@ else if (className == "org.inviwo.Size_tProperty") {
             PyErr_SetString(PyExc_TypeError, ss.str().c_str());
             return false;
         }
+    } else if (className == "org.inviwo.OptionPropertyEnumInt") {
+        if (is<int>(args)) {
+            static_cast<OptionPropertyInt*>(p)->set(parse<int>(args));
+        } else {
+            auto tt = dynamic_cast<PyTypeObject*>(args->ob_type);
+            std::stringstream ss;
+            ss << "Failed to set property, expected type int got: " << tt->tp_name;
+            PyErr_SetString(PyExc_TypeError, ss.str().c_str());
+            return false;
+        }
     } else if (className == "org.inviwo.IntMinMaxProperty") {
         if (is<ivec2>(args)) {
             static_cast<IntMinMaxProperty*>(p)->set(parse<ivec2>(args));
